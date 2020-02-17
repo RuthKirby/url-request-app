@@ -18,8 +18,6 @@ import java.util.List;
 
 public class RequestManager {
 
-    private static final int TIMEOUT = 10000;
-
     public static void main(String[] args) {
         RequestManager requestManager = new RequestManager();
         requestManager.makeUrlRequests("http://valid.com" + System.lineSeparator() + "https://valid.com");
@@ -40,7 +38,12 @@ public class RequestManager {
             if (!RequestUtil.validateUrl(url)) {
                 documentItemErrorList.add(RequestUtil.createDocumentItemError(url, ErrorMessageEnum.INVALID_URL.getMessage()));
             } else {
-                documentItemValidList.add(RequestSender.getUrlGetRequestInfo(url));
+                HttpResponse response = RequestSender.sendGetRequest(url);
+                if (response == null) {
+                    documentItemErrorList.add(RequestUtil.createDocumentItemError(url, ErrorMessageEnum.EXCEPTION.getMessage()));
+                } else {
+                    documentItemValidList.add(RequestSender.getUrlGetRequestInfo(url, response));
+                }
             }
         }
     }

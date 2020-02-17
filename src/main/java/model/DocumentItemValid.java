@@ -3,8 +3,8 @@ package model;
 public class DocumentItemValid {
 
     private String url;
-    private int statusCode;
-    private int contentLength;
+    private String statusCode;
+    private String contentLength;
     private String date;
 
     public String getUrl() {
@@ -15,19 +15,19 @@ public class DocumentItemValid {
         this.url = url;
     }
 
-    public int getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 
-    public int getContentLength() {
+    public String getContentLength() {
         return contentLength;
     }
 
-    public void setContentLength(int contentLength) {
+    public void setContentLength(String contentLength) {
         this.contentLength = contentLength;
     }
 

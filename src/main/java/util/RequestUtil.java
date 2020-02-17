@@ -2,6 +2,7 @@ package util;
 
 import model.DocumentItemError;
 import model.DocumentItemValid;
+import org.apache.commons.validator.UrlValidator;
 
 import java.util.List;
 
@@ -15,7 +16,10 @@ public class RequestUtil {
      * @return validation info for the url
      */
     public static boolean validateUrl(String url) {
-        return false;
+        String[] schemes = {"http", "https"};
+        UrlValidator urlValidator = new UrlValidator(schemes);
+        boolean isValid = urlValidator.isValid(url);
+        return isValid;
     }
 
     /**

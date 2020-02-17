@@ -23,6 +23,20 @@ public class RequestUtil {
     }
 
     /**
+     * Creates a url item for the error JSON document
+     *
+     * @param url          - the bad url
+     * @param errorMessage - the error
+     * @return error url item for the error JSON document
+     */
+    public static DocumentItemError createDocumentItemError(String url, String errorMessage) {
+        DocumentItemError documentItemError = new DocumentItemError();
+        documentItemError.setUrl(url);
+        documentItemError.setError(errorMessage);
+        return documentItemError;
+    }
+
+    /**
      * Builds a JSON formatted string from a list of valid url items
      *
      * @param documentItemValidList

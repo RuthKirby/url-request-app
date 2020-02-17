@@ -1,5 +1,6 @@
 package util;
 
+import model.DocumentItemError;
 import model.DocumentItemValid;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class RequestUtilTest {
+
+    private static final String ERROR_MESSAGE = "error";
+    private static final String URL = "bad:/url";
 
     @Before
     public void setUp() {
@@ -49,5 +53,27 @@ public class RequestUtilTest {
     public void testValidateUrlParamDoesNotStartsWithHttpsOrHttp() {
         boolean result = RequestUtil.validateUrl("ftp://nothttp");
         assertFalse(result);
+    }
+
+    @Test
+    public void testCreateDocumentItemError() {
+        DocumentItemError result = RequestUtil.createDocumentItemError("bad:/url", "error");
+        assertEquals(URL, result.getUrl());
+        assertEquals(ERROR_MESSAGE, result.getError());
+    }
+
+    @Test
+    public void testCreateDocumentItemErrorNullParams() {
+        DocumentItemError result = RequestUtil.createDocumentItemError(null, null);
+        assertNull(result.getUrl());
+        assertNull(result.getError());
+
+        result = RequestUtil.createDocumentItemError(URL, null);
+        assertEquals(URL, result.getUrl());
+        assertNull(result.getError());
+
+        result = RequestUtil.createDocumentItemError(null, ERROR_MESSAGE);
+        assertEquals(ERROR_MESSAGE, result.getError());
+        assertNull(result.getUrl());
     }
 }

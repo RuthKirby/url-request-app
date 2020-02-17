@@ -26,27 +26,6 @@ public class RequestManager {
     }
 
     /**
-     * Send a GET request to the given URL.
-     *
-     * @param url
-     * @return http response
-     */
-    public HttpResponse sendGetRequest(String url) {
-        return null;
-    }
-
-    /**
-     * Retrieve the status code, content length and date from a response
-     * and set it it to a valid document item.
-     *
-     * @param response - http response
-     * @return - a valid url document item
-     */
-    public DocumentItemValid parseResponseInfo(HttpResponse response) {
-        return null;
-    }
-
-    /**
      * Prints the JSON formatted status, content length and date information from
      * responses to GET requests
      *
@@ -59,12 +38,9 @@ public class RequestManager {
 
         for (String url : urls) {
             if (!RequestUtil.validateUrl(url)) {
-                DocumentItemError documentItemError = new DocumentItemError();
-                documentItemError.setUrl(url);
-                documentItemError.setError(ErrorMessageEnum.INVALID_URL.getMessage());
-                documentItemErrorList.add(documentItemError);
+                documentItemErrorList.add(RequestUtil.createDocumentItemError(url, ErrorMessageEnum.INVALID_URL.getMessage()));
             } else {
-
+                documentItemValidList.add(RequestSender.getUrlGetRequestInfo(url));
             }
         }
     }

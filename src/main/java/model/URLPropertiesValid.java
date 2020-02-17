@@ -1,6 +1,6 @@
 package model;
 
-public class DocumentItemValid {
+public class URLPropertiesValid {
 
     private String url;
     private String statusCode;

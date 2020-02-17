@@ -1,6 +1,6 @@
 package model;
 
-public class DocumentItemError {
+public class URLPropertiesError {
     private String url;
     private String error;
 

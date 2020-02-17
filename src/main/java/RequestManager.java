@@ -1,50 +1,50 @@
-import model.DocumentItemError;
-import model.DocumentItemValid;
+import model.URLPropertiesError;
+import model.URLPropertiesValid;
 import model.ErrorMessageEnum;
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.DefaultHttpResponseFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import util.RequestUtil;
+import util.URLPropertiesUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestManager {
 
     public static void main(String[] args) {
-        RequestManager requestManager = new RequestManager();
-        requestManager.makeUrlRequests("http://valid.com" + System.lineSeparator() + "https://valid.com");
+        RequestManager.makeUrlRequests("http://valid.com" + System.lineSeparator() + "https://valid.com" + System.lineSeparator() + "ftp:/badutl"
+                + System.lineSeparator() + "https://dsmaijsdiajdsiajodisjadiojaidjsaiojdsiajdaoijdsa.co.uk" + System.lineSeparator() + "W" + System.lineSeparator()
+                + "https://httpstat.us/200?sleep=9000" + System.lineSeparator() + "http://httpstat.us/405");
     }
 
     /**
      * Prints the JSON formatted status, content length and date information from
-     * responses to GET requests
+     * responses to GET requests to valid URLs and the error of bad URLs.
      *
      * @param newLineDelimitedUrls - urls to send GET requests to
      */
-    public void makeUrlRequests(String newLineDelimitedUrls) {
+    public static void makeUrlRequests(String newLineDelimitedUrls) {
         String[] urls = newLineDelimitedUrls.split(System.lineSeparator());
-        List<DocumentItemValid> documentItemValidList = new ArrayList<>();
-        List<DocumentItemError> documentItemErrorList = new ArrayList<>();
+        List<URLPropertiesValid> urlPropertiesValidList = new ArrayList<>();
+        List<URLPropertiesError> urlPropertiesErrorList = new ArrayList<>();
 
         for (String url : urls) {
-            if (!RequestUtil.validateUrl(url)) {
-                documentItemErrorList.add(RequestUtil.createDocumentItemError(url, ErrorMessageEnum.INVALID_URL.getMessage()));
+            if (!URLPropertiesUtil.validateUrl(url)) {
+                urlPropertiesErrorList.add(URLPropertiesUtil.createURLPropertiesError(url, ErrorMessageEnum.INVALID_URL.getMessage()));
             } else {
                 HttpResponse response = RequestSender.sendGetRequest(url);
                 if (response == null) {
-                    documentItemErrorList.add(RequestUtil.createDocumentItemError(url, ErrorMessageEnum.EXCEPTION.getMessage()));
+                    urlPropertiesErrorList.add(URLPropertiesUtil.createURLPropertiesError(url, ErrorMessageEnum.EXCEPTION.getMessage()));
                 } else {
-                    documentItemValidList.add(RequestSender.getUrlGetRequestInfo(url, response));
+                    urlPropertiesValidList.add(RequestSender.getUrlGetRequestInfo(url, response));
                 }
             }
+        }
+        //After looping through URLs print received info
+        if (!urlPropertiesValidList.isEmpty()) {
+            URLPropertiesUtil.printValidURLJSONDocument(urlPropertiesValidList);
+        }
+
+        if (!urlPropertiesErrorList.isEmpty()) {
+            URLPropertiesUtil.printErrorURLJSONDocument(urlPropertiesErrorList);
         }
     }
 }

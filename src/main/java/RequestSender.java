@@ -1,6 +1,5 @@
-import model.DocumentItemValid;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
+import model.URLPropertiesValid;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -13,7 +12,7 @@ public class RequestSender {
     private static final int TIMEOUT = 10000;
 
     /**
-     * Send a GET request to the given URL.
+     * Send a GET request to the given URL. Will time out after 10 seconds.
      *
      * @param url
      * @return http response
@@ -42,12 +41,25 @@ public class RequestSender {
      * @param url
      * @return - a valid url document item
      */
-    public static DocumentItemValid getUrlGetRequestInfo(String url, HttpResponse response) {
-        DocumentItemValid documentItemValid = new DocumentItemValid();
-        documentItemValid.setUrl(url);
-        documentItemValid.setStatusCode(String.valueOf(response.getStatusLine().getStatusCode()));
-        documentItemValid.setContentLength(response.getFirstHeader(HttpHeaders.CONTENT_LENGTH.toString()).getValue());
-        return documentItemValid;
+    public static URLPropertiesValid getUrlGetRequestInfo(String url, HttpResponse response) {
+        URLPropertiesValid urlPropertiesValid = new URLPropertiesValid();
+        if (response == null) {
+            return urlPropertiesValid;
+        }
+        urlPropertiesValid.setUrl(url);
+        StatusLine statusLine = response.getStatusLine();
+        if (statusLine != null) {
+            urlPropertiesValid.setStatusCode(String.valueOf(statusLine.getStatusCode()));
+        }
+        HttpEntity httpEntity = response.getEntity();
+        if (httpEntity != null) {
+            urlPropertiesValid.setContentLength(String.valueOf(response.getEntity().getContentLength()));
+        }
+        Header header = response.getFirstHeader(HttpHeaders.DATE.toString());
+        if (header != null) {
+            urlPropertiesValid.setDate(header.getValue());
+        }
+        return urlPropertiesValid;
     }
 
 }

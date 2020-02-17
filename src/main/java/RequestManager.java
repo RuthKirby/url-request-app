@@ -7,12 +7,15 @@ import util.URLPropertiesUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for app
+ */
 public class RequestManager {
 
     public static void main(String[] args) {
-        RequestManager.makeUrlRequests("http://valid.com" + System.lineSeparator() + "https://valid.com" + System.lineSeparator() + "ftp:/badutl"
-                + System.lineSeparator() + "https://dsmaijsdiajdsiajodisjadiojaidjsaiojdsiajdaoijdsa.co.uk" + System.lineSeparator() + "W" + System.lineSeparator()
-                + "https://httpstat.us/200?sleep=9000" + System.lineSeparator() + "http://httpstat.us/405");
+        for (String str : args) {
+            RequestManager.makeUrlRequests(str);
+        }
     }
 
     /**

@@ -7,6 +7,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
+/**
+ * Sends GET requests and parses the responses.
+ */
 public class RequestSender {
 
     private static final int TIMEOUT = 10000;

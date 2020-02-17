@@ -120,4 +120,16 @@ public class URLPropertiesUtil {
             System.err.println(buildErrorURLPropertiesJSONString(urlPropertiesError));
         }
     }
+
+    /*
+    public static void updateURLPropertiesSummaryMap(String statusCode, Map<String, Integer> summaryMap) {
+        if(summaryMap.containsKey(statusCode)) {
+            int currentCount = summaryMap.get(statusCode);
+            summaryMap.replace(statusCode, currentCount + 1);
+        }
+        else {
+            summaryMap.put(statusCode, 1);
+        }
+    }
+    */
 }

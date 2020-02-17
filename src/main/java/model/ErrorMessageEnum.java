@@ -10,4 +10,8 @@ public enum ErrorMessageEnum {
     ErrorMessageEnum(String message) {
         this.message = message;
     }
+
+    public String getMessage() {
+        return this.message;
+    }
 }

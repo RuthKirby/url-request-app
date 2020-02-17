@@ -1,5 +1,6 @@
 import model.DocumentItemError;
 import model.DocumentItemValid;
+import model.ErrorMessageEnum;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
@@ -9,6 +10,7 @@ import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import util.RequestUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +58,14 @@ public class RequestManager {
         List<DocumentItemError> documentItemErrorList = new ArrayList<>();
 
         for (String url : urls) {
+            if (!RequestUtil.validateUrl(url)) {
+                DocumentItemError documentItemError = new DocumentItemError();
+                documentItemError.setUrl(url);
+                documentItemError.setError(ErrorMessageEnum.INVALID_URL.getMessage());
+                documentItemErrorList.add(documentItemError);
+            } else {
 
+            }
         }
     }
 }
